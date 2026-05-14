@@ -1,6 +1,4 @@
 {
-  "providers": ["java"],
-  "java": {
-    "version": "17"
-  }
+  "$schema": "https://railpack.com/schema.json",
+  "jdkVersion": "17"
 }
