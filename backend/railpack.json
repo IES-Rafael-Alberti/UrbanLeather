@@ -1,0 +1,6 @@
+{
+  "providers": ["java"],
+  "java": {
+    "version": "17"
+  }
+}
