@@ -1,40 +1,37 @@
 package backend.DTO;
 
-import backend.model.Compra;
-import backend.model.Producto;
-import jakarta.persistence.*;
-
 public class DetalleCompraDTO {
 
-    private int id;
-    private Compra compra;
-    private Producto producto;
+    private Long compraId;
+    private Long productoId;
     private String talla;
     private int cantidad;
-    private double precio_unitario;
+    private double precioUnitario;
 
-    public DetalleCompraDTO(Compra compra, Producto producto, String talla, int cantidad, double precio_unitario) {
-        this.compra = compra;
-        this.producto = producto;
+    public DetalleCompraDTO() {}
+
+    public DetalleCompraDTO(Long compraId, Long productoId, String talla, int cantidad, double precioUnitario) {
+        this.compraId = compraId;
+        this.productoId = productoId;
         this.talla = talla;
         this.cantidad = cantidad;
-        this.precio_unitario = precio_unitario;
+        this.precioUnitario = precioUnitario;
     }
 
-    public Compra getCompra() {
-        return compra;
+    public Long getCompraId() {
+        return compraId;
     }
 
-    public void setCompra(Compra compra) {
-        this.compra = compra;
+    public void setCompraId(Long compraId) {
+        this.compraId = compraId;
     }
 
-    public Producto getProducto() {
-        return producto;
+    public Long getProductoId() {
+        return productoId;
     }
 
-    public void setProducto(Producto producto) {
-        this.producto = producto;
+    public void setProductoId(Long productoId) {
+        this.productoId = productoId;
     }
 
     public String getTalla() {
@@ -53,11 +50,11 @@ public class DetalleCompraDTO {
         this.cantidad = cantidad;
     }
 
-    public double getPrecio_unitario() {
-        return precio_unitario;
+    public double getPrecioUnitario() {
+        return precioUnitario;
     }
 
-    public void setPrecio_unitario(double precio_unitario) {
-        this.precio_unitario = precio_unitario;
+    public void setPrecioUnitario(double precioUnitario) {
+        this.precioUnitario = precioUnitario;
     }
 }

@@ -6,6 +6,8 @@ public class UsuarioLoginDTO {
 
     private String password;
 
+    public UsuarioLoginDTO() {}
+
     public UsuarioLoginDTO(String username, String password) {
         this.username = username;
         this.password = password;

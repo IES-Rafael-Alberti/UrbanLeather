@@ -26,7 +26,6 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
 
-
 @Configuration
 public class SecurityConfig {
 
@@ -56,8 +55,13 @@ public class SecurityConfig {
 
     @Bean
     public JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build();
-        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+        JWK jwk = new RSAKey.Builder(rsaKeys.publicKey())
+                .privateKey(rsaKeys.privateKey())
+                .build();
+
+        JWKSource<SecurityContext> jwks =
+                new ImmutableJWKSet<>(new JWKSet(jwk));
+
         return new NimbusJwtEncoder(jwks);
     }
 
@@ -65,39 +69,84 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(Customizer.withDefaults())
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .httpBasic(AbstractHttpConfigurer::disable)
+                .oauth2ResourceServer(oauth2 ->
+                        oauth2.jwt(Customizer.withDefaults()))
                 .authorizeHttpRequests(auth -> auth
-                        // RUTAS PÚBLICAS
+
+                        .requestMatchers("/files/**").permitAll()
+
+                        // AUTENTICACIÓN
                         .requestMatchers("/login", "/register").permitAll()
 
-                        // ENDPOINTS DE USUARIO
+
+                        // USUARIO
                         .requestMatchers(HttpMethod.PUT, "/usuarioUpdate").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/usuarioDelete/**").hasRole("ADMIN")
+
                         .requestMatchers(HttpMethod.DELETE, "/borrarMiCuenta").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/updateMiPerfil").authenticated()
 
-                        // ENDPOINTS DE TAREAS
-                        .requestMatchers(HttpMethod.POST, "/tareaRegister").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/mostrarTareas").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/buscarTareaNombre/{palabra}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/mostrarTareaId/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/eliminarTarea/{id}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/insertarTarea").hasRole("ADMIN")
 
-                        // ENDPOINTS DE DIRECCIÓN
+                        // PRODUCTOS
+                        .requestMatchers(HttpMethod.GET, "/productos").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/productoRegister").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/productoUpdate/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/productoDelete/**").hasRole("ADMIN")
+
+
+                        // CATEGORÍAS
+                        .requestMatchers(HttpMethod.GET, "/categorias").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/categoriaRegister").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/categoriaUpdate/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/categoriaDelete/**").hasRole("ADMIN")
+
+
+                        // TALLAS
+                        .requestMatchers(HttpMethod.GET, "/tallas").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/tallas/producto/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/tallaRegister").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/tallaUpdate/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/tallaDelete/**").hasRole("ADMIN")
+
+
+                        // CARRITO
+                        .requestMatchers("/carrito/**").authenticated()
+                        .requestMatchers("/carrito/item/**").authenticated()
+
+
+                        // COMPRAS
+                        .requestMatchers("/compraRegister").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/eliminarCompra/**").hasRole("ADMIN")
+
+                        .requestMatchers("/registerMiCompra").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/eliminarMiCompra/**").authenticated()
+                        .requestMatchers("/misCompras").authenticated()
+
+
+                        // DIRECCIONES
                         .requestMatchers(HttpMethod.POST, "/direccionRegister").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/direccionUpdate").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/eliminarDireccion/{username}").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/registerMiDireccion").authenticated()
-                        .requestMatchers(HttpMethod.PUT, "/updateMiDireccion").authenticated()
-                        .requestMatchers(HttpMethod.DELETE, "/deleteMiDireccion").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/eliminarDireccion/**").hasRole("ADMIN")
 
-                        // RESTO DE RUTAS
+                        .requestMatchers("/registerMiDireccion").authenticated()
+                        .requestMatchers("/updateMiDireccion").authenticated()
+                        .requestMatchers("/deleteMiDireccion").authenticated()
+
+
+                        // DETALLE COMPRA
+                        .requestMatchers("/detalleCompra/misDetalles").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/detalleCompra/add").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/detalleCompra/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/detalleCompra/**").hasRole("ADMIN")
+
+
+                        // RESTO
                         .anyRequest().authenticated()
                 )
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .httpBasic(AbstractHttpConfigurer::disable)
                 .exceptionHandling(handling -> handling
                         .accessDeniedHandler(customAccessDeniedHandler)
                         .authenticationEntryPoint(customAuthenticationEntryPoint)
@@ -113,6 +162,7 @@ public class SecurityConfig {
 
         JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
         jwtConverter.setJwtGrantedAuthoritiesConverter(converter);
+
         return jwtConverter;
     }
 }

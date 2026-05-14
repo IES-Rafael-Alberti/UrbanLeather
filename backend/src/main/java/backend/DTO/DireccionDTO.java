@@ -1,51 +1,21 @@
-package backend.model;
+package backend.DTO;
 
-import jakarta.persistence.*;
+public class DireccionDTO {
 
-@Entity
-@Table(name = "direcciones")
-public class Direccion {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
     private String calle;
-
-    @Column(nullable = false)
     private int numero;
-
-    @Column(nullable = false, length = 10)
     private String cp;
-
-    @Column(nullable = false)
     private String provincia;
-
-    @Column(nullable = false)
     private String municipio;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id", nullable = false)
-    private Usuario usuario;
+    public DireccionDTO() {}
 
-    public Direccion() {}
-
-    public Direccion(String calle, int numero, String cp, String provincia, String municipio, Usuario usuario) {
+    public DireccionDTO(String calle, int numero, String cp, String provincia, String municipio) {
         this.calle = calle;
         this.numero = numero;
         this.cp = cp;
         this.provincia = provincia;
         this.municipio = municipio;
-        this.usuario = usuario;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCalle() {
@@ -86,13 +56,5 @@ public class Direccion {
 
     public void setMunicipio(String municipio) {
         this.municipio = municipio;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
     }
 }

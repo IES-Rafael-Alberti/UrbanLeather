@@ -1,24 +1,31 @@
 package backend.DTO;
 
-import backend.model.Categoria;
+import java.math.BigDecimal;
+import java.util.List;
 
 public class ProductoRegisterDTO {
 
     private String nombre;
     private String descripcion;
-    private double precio;
+    private BigDecimal precio;
     private String color;
     private String imagen_url;
-    private Categoria categoria;
+    private Long categoriaId;
 
+    private List<TallaRegisterDTO> tallas;
 
-    public ProductoRegisterDTO(String nombre, String descripcion, double precio, String color, String imagen_url, Categoria categoria) {
+    public ProductoRegisterDTO() {}
+
+    public ProductoRegisterDTO(String nombre, String descripcion, BigDecimal precio,
+                               String color, String imagen_url, Long categoriaId,
+                               List<TallaRegisterDTO> tallas) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.color = color;
         this.imagen_url = imagen_url;
-        this.categoria = categoria;
+        this.categoriaId = categoriaId;
+        this.tallas = tallas;
     }
 
     public String getNombre() {
@@ -37,11 +44,11 @@ public class ProductoRegisterDTO {
         this.descripcion = descripcion;
     }
 
-    public double getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 
@@ -61,11 +68,19 @@ public class ProductoRegisterDTO {
         this.imagen_url = imagen_url;
     }
 
-    public Categoria getCategoria() {
-        return categoria;
+    public Long getCategoriaId() {
+        return categoriaId;
     }
 
-    public void setCategoria(Categoria categoria) {
-        this.categoria = categoria;
+    public void setCategoriaId(Long categoriaId) {
+        this.categoriaId = categoriaId;
+    }
+
+    public List<TallaRegisterDTO> getTallas() {
+        return tallas;
+    }
+
+    public void setTallas(List<TallaRegisterDTO> tallas) {
+        this.tallas = tallas;
     }
 }

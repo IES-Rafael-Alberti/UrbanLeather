@@ -1,38 +1,25 @@
 package backend.DTO;
 
-import backend.model.Usuario;
-
-import java.time.LocalDateTime;
-
 public class CompraRegisterDTO {
 
-    private int id;
-    private Usuario usuario;
-    LocalDateTime fecha;
-    String estado;
-    double total;
+    private String username;
+    private String estado;
+    private double total;
 
-    public CompraRegisterDTO(Usuario usuario, LocalDateTime fecha, String estado, double total) {
-        this.usuario = usuario;
-        this.fecha = fecha;
+    public CompraRegisterDTO() {}
+
+    public CompraRegisterDTO(String username, String estado, double total) {
+        this.username = username;
         this.estado = estado;
         this.total = total;
     }
 
-    public Usuario getUsuario() {
-        return usuario;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public LocalDateTime getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEstado() {

@@ -1,36 +1,55 @@
 package backend.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
-@Table(name = "detalleCompra")
+@Table(name = "detalle_compra")
 public class DetalleCompra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @OneToMany
-    @JoinColumn(name = "compra_id", referencedColumnName = "compra_id", nullable = false, unique = true)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "compra_id", nullable = false)
     private Compra compra;
-    @OneToMany
-    @JoinColumn(name = "producto_id", referencedColumnName = "producto_id", nullable = false, unique = true)
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "producto_id", nullable = false)
     private Producto producto;
-    @Column(nullable = false)
-    private String talla;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "talla_id", nullable = false)
+    private Talla talla;
+
     @Column(nullable = false)
     private int cantidad;
+
     @Column(nullable = false)
-    private double precio_unitario;
+    private BigDecimal precioUnitario;
 
-    public DetalleCompra() {
-    }
+    private String nombreProducto;
 
-    public DetalleCompra(Compra compra, Producto producto, String talla, int cantidad, double precio_unitario) {
+    public DetalleCompra() {}
+
+    public DetalleCompra(Compra compra, Producto producto, Talla talla, int cantidad,
+                         BigDecimal precioUnitario,
+                         String nombreProducto) {
         this.compra = compra;
         this.producto = producto;
         this.talla = talla;
         this.cantidad = cantidad;
-        this.precio_unitario = precio_unitario;
+        this.precioUnitario = precioUnitario;
+        this.nombreProducto = nombreProducto;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Compra getCompra() {
@@ -49,11 +68,11 @@ public class DetalleCompra {
         this.producto = producto;
     }
 
-    public String getTalla() {
+    public Talla getTalla() {
         return talla;
     }
 
-    public void setTalla(String talla) {
+    public void setTalla(Talla talla) {
         this.talla = talla;
     }
 
@@ -65,11 +84,19 @@ public class DetalleCompra {
         this.cantidad = cantidad;
     }
 
-    public double getPrecio_unitario() {
-        return precio_unitario;
+    public BigDecimal getPrecioUnitario() {
+        return precioUnitario;
     }
 
-    public void setPrecio_unitario(double precio_unitario) {
-        this.precio_unitario = precio_unitario;
+    public void setPrecioUnitario(BigDecimal precioUnitario) {
+        this.precioUnitario = precioUnitario;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
     }
 }

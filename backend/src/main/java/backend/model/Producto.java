@@ -1,6 +1,8 @@
 package backend.model;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Table(name = "productos")
@@ -8,31 +10,48 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
+
     @Column(nullable = false)
     private String nombre;
-    @Column(nullable = false)
+
+    @Column(nullable = false, length = 1000)
     private String descripcion;
+
     @Column(nullable = false)
-    private double precio;
+    private BigDecimal precio;
+
     @Column(nullable = false)
     private String color;
+
     @Column(nullable = false)
-    private String imagen_url;
-    @ManyToMany
-    @JoinColumn(name = "categoria_id", referencedColumnName = "categoria_id", nullable = false, unique = true)
+    private String imagenUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "categoria_id", nullable = false)
     private Categoria categoria;
 
-    public Producto() {
-    }
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Talla> tallas;
 
-    public Producto(String nombre, String descripcion, double precio, String color, String imagen_url, Categoria categoria) {
+    public Producto() {}
+
+    public Producto(String nombre, String descripcion, BigDecimal precio,
+                    String color, String imagenUrl, Categoria categoria) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
         this.color = color;
-        this.imagen_url = imagen_url;
+        this.imagenUrl = imagenUrl;
         this.categoria = categoria;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -51,11 +70,11 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
-    public double getPrecio() {
+    public BigDecimal getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(BigDecimal precio) {
         this.precio = precio;
     }
 
@@ -67,12 +86,12 @@ public class Producto {
         this.color = color;
     }
 
-    public String getImagen_url() {
-        return imagen_url;
+    public String getImagenUrl() {
+        return imagenUrl;
     }
 
-    public void setImagen_url(String imagen_url) {
-        this.imagen_url = imagen_url;
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
     }
 
     public Categoria getCategoria() {
@@ -81,5 +100,13 @@ public class Producto {
 
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
+    }
+
+    public List<Talla> getTallas() {
+        return tallas;
+    }
+
+    public void setTallas(List<Talla> tallas) {
+        this.tallas = tallas;
     }
 }

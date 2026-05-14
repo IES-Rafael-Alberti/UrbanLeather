@@ -3,32 +3,52 @@ package backend.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "tallas")
+@Table(
+        name = "tallas",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"producto_id", "nombre"})
+)
 public class Talla {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @ManyToMany
-    @JoinColumn(name = "producto_id", referencedColumnName = "producto_id", nullable = false, unique = true)
+    private Long id;
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String nombre;
+    private TallaNombre nombre;
+
     @Column(nullable = false)
     private int stock;
 
-    public Talla() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "producto_id", nullable = false)
+    private Producto producto;
+
+    public enum TallaNombre {
+        S, M, L, XL
     }
 
-    public Talla(String nombre, int stock) {
+    public Talla() {}
+
+    public Talla(TallaNombre nombre, int stock, Producto producto) {
         this.nombre = nombre;
         this.stock = stock;
+        this.producto = producto;
     }
 
-    public String getNombre() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public TallaNombre getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    public void setNombre(TallaNombre nombre) {
         this.nombre = nombre;
     }
 
@@ -38,5 +58,13 @@ public class Talla {
 
     public void setStock(int stock) {
         this.stock = stock;
+    }
+
+    public Producto getProducto() {
+        return producto;
+    }
+
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 }

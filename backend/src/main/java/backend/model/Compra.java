@@ -1,9 +1,9 @@
 package backend.model;
 
 import jakarta.persistence.*;
-
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "compras")
@@ -11,25 +11,48 @@ public class Compra {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @OneToMany
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false, unique = true)
-    private Usuario usuario;
-    @Column(nullable = false)
-    LocalDateTime fecha;
-    @Column(nullable = false)
-    String estado;
-    @Column(nullable = false)
-    double total;
+    private Long id;
 
-    public Compra() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id", nullable = false)
+    private Usuario usuario;
+
+    @Column(nullable = false)
+    private LocalDateTime fecha = LocalDateTime.now();
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EstadoCompra estado = EstadoCompra.PENDIENTE;
+
+    @Column(nullable = false)
+    private BigDecimal total;
+
+    @OneToMany(mappedBy = "compra", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DetalleCompra> detalles;
+
+    public enum EstadoCompra {
+        PENDIENTE,
+        PAGADO,
+        ENVIADO,
+        CANCELADO
     }
 
-    public Compra(Usuario usuario, LocalDateTime fecha, String estado, double total) {
+    public Compra() {}
+
+    public Compra(Usuario usuario, LocalDateTime fecha,
+                  EstadoCompra estado, BigDecimal total) {
         this.usuario = usuario;
         this.fecha = fecha;
         this.estado = estado;
         this.total = total;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Usuario getUsuario() {
@@ -48,19 +71,27 @@ public class Compra {
         this.fecha = fecha;
     }
 
-    public String getEstado() {
+    public EstadoCompra getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoCompra estado) {
         this.estado = estado;
     }
 
-    public double getTotal() {
+    public BigDecimal getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(BigDecimal total) {
         this.total = total;
+    }
+
+    public List<DetalleCompra> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(List<DetalleCompra> detalles) {
+        this.detalles = detalles;
     }
 }

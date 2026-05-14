@@ -10,6 +10,8 @@ public class UsuarioRegisterDTO {
     private String username;
     private String roles = "USER";
 
+    public UsuarioRegisterDTO() {}
+
     public UsuarioRegisterDTO(String nombre, String apellido, String email, String password, String repetirPassword, String username, String roles) {
         this.nombre = nombre;
         this.apellido = apellido;
