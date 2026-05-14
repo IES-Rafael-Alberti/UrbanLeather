@@ -1,0 +1,111 @@
+.usuarioPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 60px;
+    font-family: 'Montserrat';
+}
+
+/* Avatar */
+.usuarioHeaderCenter {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.usuarioAvatar {
+    width: 120px;
+    height: auto;
+}
+
+/* Opciones estilo "formulario login" */
+.opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+/* Texto opciones */
+.opciones p {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.opciones p:hover {
+    transform: scale(1.05);
+}
+
+/* Botón cerrar sesión estilo login */
+.cerrarSesion {
+    margin-top: 20px;
+
+    padding: 10px 20px;
+    font-size: 16px;
+
+    color: white;
+    background-color: black;
+
+    border: none;
+    border-radius: 25px;
+
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cerrarSesion:hover {
+    background-color: #333;
+}
+
+.cerrarSesion:active {
+    background-color: #555;
+    transform: scale(0.95);
+}
+
+/* ========================= */
+/* FORMULARIOS USUARIO */
+/* ========================= */
+
+.formDireccion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    margin-top: 25px;
+    width: 100%;
+}
+
+/* Inputs */
+.formDireccion input {
+    width: 260px;
+    padding: 10px 14px;
+
+    border: 1px solid #ccc;
+    border-radius: 20px;
+
+    font-family: 'Montserrat';
+    font-size: 14px;
+
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.formDireccion input:focus {
+    border-color: black;
+}
+
+/* Botón dentro del form (ya lo tienes, pero lo refuerzo visualmente) */
+.formDireccion .cerrarSesion {
+    width: 260px;
+}

@@ -1,0 +1,90 @@
+.adminPage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 60px;
+    font-family: 'Montserrat';
+}
+
+/* Avatar */
+.adminHeaderCenter {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.adminAvatar {
+    width: 120px;
+    height: auto;
+}
+
+/* Opciones estilo panel */
+.opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+}
+
+/* Texto opciones */
+.opciones p {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.opciones p:hover {
+    transform: scale(1.05);
+    color: black;
+}
+
+/* Formularios admin (igual que usuario pero reutilizable) */
+.formDireccion {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    margin-top: 20px;
+    width: 300px;
+}
+
+/* Inputs */
+.formDireccion input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: 'Montserrat';
+}
+
+/* Botón */
+.cerrarSesion {
+    margin-top: 20px;
+
+    padding: 10px 20px;
+    font-size: 16px;
+
+    color: white;
+    background-color: black;
+
+    border: none;
+    border-radius: 25px;
+
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cerrarSesion:hover {
+    background-color: #333;
+}
+
+.cerrarSesion:active {
+    background-color: #555;
+    transform: scale(0.95);
+}

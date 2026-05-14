@@ -1,0 +1,87 @@
+/* =========================
+   INICIO SESIÓN
+========================= */
+
+/* Header */
+.headerSesion {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative; /* necesario para posicionar volver */
+    margin-bottom: 30px; /* espacio abajo */
+    padding-top: 20px;
+}
+
+/* Título */
+.iniciarSesion {
+    font-weight: bold;
+    font-size: 32px;
+}
+
+/* Botón volver (AHORA A LA IZQUIERDA) */
+.volver {
+    position: absolute;
+    left: 20px; /* 🔥 cambiado de right → left */
+    top: 50%;
+    transform: translateY(-50%);
+
+    color: #000;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+/* Formulario */
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* 🔥 más espacio entre elementos */
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px; /* 🔥 separa del header */
+}
+
+/* Inputs */
+.formulario input {
+    border: 2px solid #000;
+    border-radius: 4px;
+    width: 30%;
+    height: 35px; /* un poco más alto */
+    padding: 5px 10px; /* 🔥 más cómodo */
+}
+
+/* Botón iniciar */
+.iniciar {
+    padding: 12px 25px;
+    font-size: 16px;
+    color: white;
+    background-color: black;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.iniciar:hover {
+    background-color: #333;
+}
+
+.iniciar:active {
+    background-color: #555;
+    transform: scale(0.95);
+}
+
+/* Texto inferior */
+.noRegistrado {
+    font-weight: bold;
+    margin-top: 10px; /* 🔥 separa del botón */
+}
+
+/* Link registro */
+.registrateLink {
+    color: #000;
+    text-decoration: none;
+}
